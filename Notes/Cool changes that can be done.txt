@@ -1,0 +1,1 @@
+if the player swinging speed is dependent on how fast the player is going it can be used to make the hookshot have a heavier feel and in general feel more realistic

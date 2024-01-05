@@ -1,0 +1,16 @@
+{
+  "player": {"description": "player start point at the beginning"},
+  "pull_chain": {"description": "activates group when at full length.", "arguments": ["pull_time", "retract_time", "activation_group"]},
+  "door": {"description": "teleports player from point one to point two"},
+  "flip": {"description": "flips tile on current layer to next id"},
+  "toggle": {"description": "toggles tile on layer when its group is activated"},
+  "ladder": {"description": "creates a climb-able ladder rect from point one and two"},
+  "pressure_plate": {"description": "a rect that when collided with activates a group"},
+  "room_hide": {"description": "a rect to be filled with black when the player is not in it"},
+  "sky": {"description": "fills the background with blue in the rect"},
+  "onoff": {"description": "toggles on and off a tile on the current layer. arguments: timer, time"},
+  "checkpoint": {"description": "a checkpoint for the player that activates when point one overlaps the player"},
+  "moving_platform": {"description": "a platform that has its topleft move from point 1 to point 2. The collision rect is implied from the image", "arguments": ["image_path"]},
+  "sign": {"description": "displays text from the sign json file when the player collides with point 1", "arguments": ["sign_name"]},
+  "camera": {"description": "locks camera inside rect"}
+}

@@ -1,0 +1,5 @@
+make it similar to titan souls
+add enemies
+add puzzles
+add procedural animation
+make it like rain world?

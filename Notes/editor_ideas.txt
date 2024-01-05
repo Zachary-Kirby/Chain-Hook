@@ -1,0 +1,14 @@
+the ability to copy a tile by clicking it
+
+a tile quickbar
+
+a recently selected tiles bar
+
+copy
+cut
+undo
+redo
+fill
+smart placing (like if you just wanted to paint shadows, but there are like 9 different tiles for corners and things)
+
+auto place collision (so when you place certain tile types it places collision for you)

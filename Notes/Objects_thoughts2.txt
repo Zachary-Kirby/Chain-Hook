@@ -1,0 +1,60 @@
+what am I doing
+
+figuring out objects.
+
+what are they?
+
+
+mechanic place holders:
+	breakable blocks, 
+	interactive animated tiles,
+	healing stations
+	doors
+	checkpoints
+	spawners
+	npcs
+	pickups
+	camera controls
+
+
+
+
+	what is its structure?
+pos, type, data, group, layer
+(I might want it to be a rectanlge) 
+(yeah they need to be hit boxes)
+	How does the game use it?
+when the game first loads a chunk it looks for any entities and spawns them in.
+
+when a event happens it looks for all objects in a group with that events name
+and runs a function that corresponds with it.
+
+	How do you place it?
+entering object mode
+by entering text into text boxes
+picking a layer
+clicking on where you want to place it
+
+basically the meat of the game mechanics need some way to be saved
+
+WHAT ARE THE STUPID DOWNSIDES TO STORING THINGS IN A GRID?!
+
+dont have specific hitboxes
+can't easily be queried in the case of acting on all tiles
+
+so have three different ways of storing the data?
+
+one for if it is complety static
+one for if it needs to have freedom but also unload and load
+one for if it needs to be activated from off screen or in groups all at once
+one for if it needs to always be active
+
+
+
+the problem is that it's so general that it's impossible to think about all at once
+
+the everything list will just have to be slow?
+
+what do I want from it
+I want it to be possible to have some id thats unique and for it to be able to grab the same data all the time
+also I want it to be possible to just loop through it all.

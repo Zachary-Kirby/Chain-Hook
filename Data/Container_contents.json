@@ -1,0 +1,8 @@
+{
+  "HOW TO USE" : ["the key (examples always make more sense so) want a chest? how do you describe it without just typing all the contents in the level editor?",
+                  "text: you want to tell the player something when they got that item right?",
+                  "item: what item did you want to give them? air ok yeah sure thats what you wanted.",
+                  "you specified what it was. what about if you wanted to give them a hundred rupees? what you place a hundred chests with one rupee per?!",
+                  "maybe this was useful"],
+  "bombs" : {"text" : "Bombs! Very dangerous. Use them wisely.", "item" : "bomb", "amount" : 1}
+}

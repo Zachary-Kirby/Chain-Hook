@@ -1,0 +1,42 @@
+
+
+fix collision bugs
+add death sound
+add boss
+add floating particles
+
+
+
+
+
+
+
+you are trying to escape this void
+
+
+
+
+
+OLD
+what is missing from my game?
+
+Enemies
+Particles
+Good graphics
+Story
+	You are a mercenary who's* job is to save a poor towns citizens from a
+	evil witch who has kidnapped many people for sacrifices for their "god".
+	You are skilled with a hookshot and can run fairly fast, but you know
+	you can't fight the witchcraft of that old hag. You decide that it's better to
+	go alone and sneak everyone out without being seen. nobody else is brave 
+	enough, and even if they did come they would stand no chance at fighting
+	the witch.
+Goals
+
+	Find Survivor Shelter?
+		and
+	Save survivors.
+	
+	Save somebody from being sacrificed to a Demon in the depths of a witch's
+	Cave; with riddles, puzzles, other imprisoned people and Failed sacrifices or
+	other monstrosities.

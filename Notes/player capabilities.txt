@@ -1,0 +1,7 @@
+what can the player do?
+
+they can climb walls with a series of wall jumps and grappling to the same wall but higher
+
+they can swing in a perfect circle around a block
+
+can grapple from a ladder

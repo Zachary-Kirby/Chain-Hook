@@ -1,0 +1,4 @@
+smart tiles not only depend on what tile exactly is next to it, but also need to change the tiles they are next to?
+
+technically (if you only have up, down, left, and right) the amount of combinations per tile is n^4 where n is the amount of tiles you have including empty tiles.
+

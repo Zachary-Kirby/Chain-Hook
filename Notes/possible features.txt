@@ -1,0 +1,180 @@
+I need to brainstorm becuase I have no direction now.
+
+things that I could add:
+
+npcs
+
+town
+
+shop
+
+hiding
+
+patrols
+
+alert level
+
+alert level triggered events
+
+cutscenes
+
+pathfinding
+
+chests
+
+inventory
+
+bombs
+
+blowupable walls
+
+keys
+
+locked doors
+
+switchs that are activated by the hookshot
+
+a second hookshot
+
+moving platforms
+
+moving hookshotable object
+
+floating book platforms
+
+familiars
+
+spring board
+
+switchable blocks
+
+pushable crates
+
+flares (would increase alert level when used)
+
+noise makers (would increase alert level when used)
+
+electric water
+
+moving water levels
+
+moving lava levels
+
+satanic rituals (performed by the witch)
+
+the actual devil (summoned by said witch)
+
+falling platforms
+
+moving spikes
+
+readable bookshelves
+
+waterable plants that grow into fantastical sizes
+
+paintings with ghosts in them
+
+living walls
+
+falling blocks (onto the players head)
+
+sleeping statues that go beserk and all spiky when you wake them up
+
+shovel for digging up dirt
+
+a house with stuff you've collected
+
+the village slowly grow back to its original glory as you save the people from the witch
+
+the first boss you meet you convince into fighting the witch.
+somebody like this is needed to make the village make more sense. it wouldn't make
+sense becuase the witch could, at any moment, abduct the people again.
+maybe they could be called the spell maker or the armorer.
+
+objects that you can pull out with the hookshot
+
+flowing water
+
+fans that blow you
+
+zero gravity zones
+
+hot areas
+
+cold areas
+
+spells that you can get from collecting things in the castle
+
+temporary power ups that are expensive but used to kill a monster once
+
+a mirror that is used to talk to the armorer
+
+a way to teleport back to the village if you're afraid?
+
+different costumes for your character for different play styles.
+
+killer npcs that will make you wonder if it's safe to save everybody.
+
+shadow version of yourself
+
+shadow version of yourself to see if you are faster then your last run.
+
+totem pole enemy
+
+your family?
+
+somebody who turns the village against you.
+
+a point where you lose your hookshot.
+
+a point where you lose your legs.
+
+teleport hookshot? not likely.
+
+sanity meter.
+
+a boat...
+
+time traveler boss (they affect time, which you have to follow)
+
+somebody that is somehow nuetral, and takes you to all the different areas 
+that you've been to.
+
+puzzle that involves tricking you into thinking you need two hookshots
+
+fairy that provides some light where your cursor is.
+
+the jester (because thats what I was listening to)
+
+
+
+(I'm getting real shovel knight vibes)
+(also I had to make a connection between shield hero and captain america)
+
+bosses (I Don't think you really fight them. It's more like you run away and hide)
+{
+living fire boss
+
+the brewer
+
+the writer
+
+the castle itself
+
+the witch (I guess she is a queen rather then some country witch)
+}
+
+enemies
+{
+
+yeti
+
+flying books that shoot spells
+
+piano with teeth
+
+book that sucks you into a pocket dimension
+
+shadow piranhas 
+
+}

@@ -1,0 +1,9 @@
+{
+  "controls":"walk with A and D.\nJump with SPACE.\nLeft MOUSE BUTTON to\nshoot / recover your\nchain hook.",
+  "wall_jump_hint":"This trial does not require your chain hook",
+  "momentum_hint":"kek, what are you doing\nhere? human are you afraid\nof spinning around things with\n your hook!? kekekeke with that\nattitude you wont get far!",
+  "wall_climbing_tip":"It is possible to climb this wall.\nYou will need to pull in your\nchain hook using W or S.",
+  "death1":"R.I.P\nJohn\nRan out of food while\nescaping this dungeon.",
+  "entry1":"Things are tough.\n before It was already hard\nto climb this c-st--\n,but now I can't get\na hold anymore.",
+  "pull_chain_hint":"Pull and Run\nBlock and Unblock\nBeat the Clock\nUnblock and Walk"
+}

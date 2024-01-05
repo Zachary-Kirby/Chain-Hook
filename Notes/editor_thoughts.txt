@@ -1,0 +1,43 @@
+I have a level editor, but that doesn't mean that I can easily make anything I want.
+for example: what if I want to make a boss?
+a boss might need several special points defined for movement,
+detection areas,
+graphical representation. (this is the only thing that can't be generalized easily)
+
+what goes into a boss?
+
+  slime boss
+you pull its heart out.
+the ai has a set path to follow.
+it has a start point.
+
+the slime boss would be pretty simple to add with the current all perpose level editor.
+
+  snow giant
+you climb its arms.
+it shakes you off.
+the giant would need a weakness. 
+  Maybe I giant icecicle could drop onto its head.
+  You could get it to punch itself in the face.
+  you could have to trap its arms in the wall.
+  you could have to break ice that it stands on to drop it into water to freeze it.
+  you could have to set it on fire.
+
+the boss could be defined with bounding boxes...
+
+  flying dragon
+it would have a course that it would have to fallow.
+any detection zones could be hardcoded.
+the dragon could have points that it lands at.
+animation would have to be hardcoded.
+maybe you steer the dragon into the ground or big stone pillars.
+maybe you drop stuff on it.
+maybe you aim a ballista at it.
+  might need a arrow to point at where the dragon is or a minimap.
+  the camera could follow the ballista arrow, and there could be a arc predicting where the arrow will go on a minimap.
+
+the boss could probably be defined with the current level editor
+
+I need a way to quickly switch between levels. I could stick with just changing the level in the code and reloading. (if it were c++ this would be different though)
+I want copy, paste, cut, undo, and redo.
+I really want smart tiles.

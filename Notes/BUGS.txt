@@ -1,0 +1,11 @@
+BUGS
+
+Player can swing into a corner of a block and will clip into the block
+
+if your are holding left or right when trying to jump onto a ladder it instantly jumps off
+  possible solution is to only allow the player to get off when the buttons are first pressed rather then when held
+  
+The hookshot can be used to be pulled through objects
+when swinging with the hookshot into a ceiling the player can get stuck
+
+when you get to the top of the ladder you should probably stop instead of falling off

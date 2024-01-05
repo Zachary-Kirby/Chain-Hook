@@ -1,0 +1,11 @@
+I want the editor to only care about creating objects with data that could be
+interpreted as anything
+
+I want chunks to associate with objects
+
+about now is when I could seperate things into functions
+
+
+OK so litteraly just a list of data that the chunks have refrences to
+
+and the game will interpret them. sorting them into their appropriate group

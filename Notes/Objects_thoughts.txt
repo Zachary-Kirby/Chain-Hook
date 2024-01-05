@@ -1,0 +1,21 @@
+way to remove tiles
+way to create enemies and save if you fought them already
+place chests
+npcs
+platforms
+warp points
+
+
+action groups are better suited to being loaded all the time (some other things too)
+
+enemies are better suited to being loaded with chunks(and other interactables)
+
+maybe combine the two because sometimes you want both data views
+
+so how?
+
+have a list of all the objects
+
+have a dictionary for groups in those groups have refrences to the actual objects
+
+and also keep refrences in the chunks

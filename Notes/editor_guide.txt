@@ -1,0 +1,57 @@
+notes:
+
+when you're done typing into the object info it should be in object mode
+
+
+end notes:
+
+
+dragging while holding shift moves the camera
+hit 'o' to use the object tool
+hit 't' to use the tile tool
+hit 'l' to turn on lighting
+click any of the colors to enter light placing mode
+the scroll wheel controls what layer your on
+t 	stands for type
+i 	stands for information
+g 	stands for group
+drag the tile selected to look for a tile
+click any of  the tiles on the tile select to pick a tile
+
+
+action groups
+if the group name isn't any of the predetermined group names then its a action
+group
+
+type  	| data  		|	description
+---------------------------------------------
+place 	| tile id		|	(places a tile on the selected layer) 
+	
+
+collideables
+
+type  	| data  		|	description
+---------------------------------------------
+pressure_plate 	| Action group to activate		|	activates a action group
+flip | None | flips a tile to the next tile id when the player is touching it
+checkpoint | None | places a checkpoint that if the player touches will activate
+
+
+
+spawner
+
+player | None | where the player should start
+
+interactables
+
+things that if the player presses a button 
+
+ladder | wether to center or not (0 or 1)| places a ladder from point 1 to point 2 that you place
+door | #may be used to decide what transition to use# | teleports from point 1 to point 2
+container | what container table to look at (refrence to inside the chest loot json file) | 
+
+npcs
+
+for this group I decided that the type basically names who it is
+
+npc|the name of dialogue they should have (from a list) | a testing npc
