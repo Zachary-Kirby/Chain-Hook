@@ -234,24 +234,24 @@ def drawInTileGrid(window : Window, tileGrid : TileGrid, tileDefs, mouseEvent : 
   
   window.window.set_clip()
 
-def drawTextInfo(window : Window, font : pg.font.Font, selectedLayer, tileGrid, mouseEvent, Tool):
-  window.window.blit(font.render("layer:"+str(selectedLayer), 0, (255,255,255)), [0, 64*window.scale])
+def drawTextInfo(window : Window, font : pg.font.Font, selectedLayer, tileGrid, mouseEvent, Tool, offset: Vector2):
+  window.window.blit(font.render("layer:"+str(selectedLayer), 0, (255,255,255)), [0+offset.x, 64*window.scale+offset.y])
   mouse_tile_pos = (mouseEvent.pos[0]+tileGrid.offset[0]-tileGrid.rect[0]) // tileGrid.tileSize, (mouseEvent.pos[1]+tileGrid.offset[1]-tileGrid.rect[1]) // tileGrid.tileSize
-  window.window.blit(font.render("tile_id:"+str(tileGrid.get_tile(mouse_tile_pos, selectedLayer)), 0, (255,255,255)), [0, (64+8)*window.scale])
-  window.window.blit(font.render("tool: "+Tool, 0, (255,255,255)), [0, (115+48)*window.scale])
+  window.window.blit(font.render("tile_id:"+str(tileGrid.get_tile(mouse_tile_pos, selectedLayer)), 0, (255,255,255)), [0+offset.x, (64+8)*window.scale+offset.y])
+  window.window.blit(font.render("tool: "+Tool, 0, (255,255,255)), [0+offset.x, (115+48)*window.scale+offset.y])
 
-def drawTextFields(window, allTextFields, smallFont):
+def drawTextFields(window, allTextFields, smallFont, offset: Vector2):
   for text_field in allTextFields:
     if text_field.text != "":
       draw_text(window.window, smallFont, text_field.rect, text_field.text)
-    pg.draw.rect(window.window, (255,255,255), text_field.rect, 1)
+    pg.draw.rect(window.window, (255,255,255), pg.Rect(text_field.rect).move(offset.x, offset.y), 1)
 
-def drawTIG(window : Window, allTextFields, font : pg.font.Font):
+def drawTIG(window : Window, allTextFields, font : pg.font.Font, offset: Vector2):
   for field_id in range(len(allTextFields)):
     field = allTextFields[field_id]
     text = "tig"[field_id]
     size = font.size(text)
-    window.window.blit(font.render(text, 0, (255,255,255)), [8-size[0]/2, field.rect[1]])
+    window.window.blit(font.render(text, 0, (255,255,255)), [8-size[0]/2+offset.x, field.rect[1]+offset.y])
 
 def drawObjects(window : Window, tileGrid : TileGrid, objectSystem : ObjectSystem, mouseEvent : MouseEvent, font : pg.font.Font):
   window.window.set_clip(tileGrid.rect)

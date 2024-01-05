@@ -6,6 +6,7 @@ from json import dumps, loads
 from sys import exit
 
 import pygame as pg
+from pygame import Vector2
 from classes        import *
 from functions      import *
 from textRenderer   import *
@@ -15,8 +16,15 @@ from mathFunctions  import *
 
 PI = math.pi
 
+class ToolBar:
+  def __init__(self, rect: pg.Rect):
+    self.rect = pg.Rect(rect)
+    self.offset = Vector2(0, 0)
+
 def main():
   window = Window()
+  
+  #region tiles
   tileAtlas       = pg.image.load("../Graphics/tile_atlas.png").convert_alpha()
   collisionAtlas  = pg.image.load("../Graphics/Collision_sheet.png")
   tileGrid = TileGrid([int(64*window.scale), int(0), int((400-64)*window.scale), int(240*window.scale)],
@@ -29,28 +37,40 @@ def main():
       collision_assignments = loads(file.read())
   else:
     print("COLLISION_ASSIGNMENTS_FAILED_TO_LOAD")
+
   tileDefs = create_tile_definitions(tileGrid.tileSize, tileAtlas.get_size())
   originalTileDefs = tileDefs.copy()
   tileAnimations = [[20, 96, 97, 98, 99], [10, 80, 81, 82], [10, 10, 11], [10, 67, 68, 69], [10, 160, 161, 162, 163], [5, 165, 166, 167, 168]]
+  #endregion
+  
   pg.font.init()
   font = pg.font.SysFont("calibrib.ttf", int(16*window.scale))
   smallFont = my_font_class(window.scale)
+  
   tileSelect = tile_select([int(0),int(0),int(64*window.scale),int(64*window.scale)],tileAtlas,tileGrid.tileSize, collisionAtlas)
+  
   objectSystem = ObjectSystem(window)
   allTextFields = [objectSystem.idField, objectSystem.storedField, objectSystem.activationGroupField]
   selectedField = None
+  
+  toolBar = ToolBar([0,0,int(64*window.scale), window.dim[1]])
+
   mouseEvent = MouseEvent()
   Clock = pg.time.Clock()
+  
   levelFile = "../Levels/Level0.level"
   tileGrid.load(levelFile, objectSystem)
+  
   tool = "tile"
   clickStartPos = [0,0]
   selectedTile = 1
   selectedLayer = 0
   showCameraArea = True
+  
   keyButtons = KeyButtons()
   Frame = 0
   Exit = 0
+  
   while Exit == 0:
     for event in pg.event.get():
       if event.type == pg.QUIT:
@@ -61,8 +81,11 @@ def main():
         window.dim[1] = event.h
         pg.display.set_mode(window.dim, pg.RESIZABLE)
       if event.type == pg.MOUSEWHEEL:
-        selectedLayer += event.y
-        selectedLayer = min(max(selectedLayer,0), tileGrid.grid_layers-1)
+        if pg.Rect(tileGrid.rect).collidepoint(mouseEvent.pos):
+          selectedLayer += event.y
+          selectedLayer = min(max(selectedLayer,0), tileGrid.grid_layers-1)
+        if toolBar.rect.collidepoint(mouseEvent.pos):
+          toolBar.offset.y = min(toolBar.offset.y + event.y * 4,0)
       if event.type == pg.KEYDOWN:
         if selectedField == None: #where all the hardcoded input is (things like object mode, lights on, collision_grid_display_toggle, or save)
           if event.key == pg.K_c: showCameraArea = not showCameraArea
@@ -77,16 +100,22 @@ def main():
     mouseEvent.prePos = [int(mouseEvent.prePos[0]), int(mouseEvent.prePos[1])]
     for i in range(5):
       if keyButtons.getPressedRisingEdge(pg.K_0+i): toggleLayer(tileGrid, i)
+    
     tileSelect.opening(keyButtons, mouseEvent)
     tileSelect.closing(keyButtons, mouseEvent)
+    
     arrowKeyScrolling(tileGrid, keyButtons)
+    
     placingAtEdgeScroll(mouseEvent, tileGrid)
+    
     middleMouseScroll(mouseEvent, tileGrid)
+    
     selectedField = textFieldSelect(mouseEvent, allTextFields, selectedField)
     if keyButtons.getPressed(pg.K_LALT ): 
       selectedTile = mousePicking(mouseEvent, tileGrid, selectedLayer, selectedTile)
     if keyButtons.getPressed(pg.K_LCTRL): 
       clickStartPos = mouseRangeFill(mouseEvent, tileGrid, selectedTile, selectedLayer, clickStartPos)
+    
     mouseInTileSelect = pg.Rect(tileSelect.rect).collidepoint(mouseEvent.pos)
     mouseInTileGrid   = pg.Rect(tileGrid.rect).collidepoint(mouseEvent.pos)
     #tile select
@@ -118,9 +147,6 @@ def main():
           removeObject(rel, objectSystem.objects)
         objectSystem.handleInput(mouseEvent, rel, keyButtons, tileGrid.tileSize, selectedLayer)
     
-    
-    
-    
     if selectedLayer == tileGrid.Collison_layer:
       tileSelect.mode = "collision"
     else:
@@ -131,9 +157,11 @@ def main():
     
     window.window.fill((16,16,32))
     drawInTileGrid(window, tileGrid, tileDefs, mouseEvent, showCameraArea)
-    drawTextInfo(window, font, selectedLayer, tileGrid, mouseEvent, tool)
-    drawTextFields(window, allTextFields, smallFont)
-    drawTIG(window, allTextFields, font)
+    window.display.set_clip(toolBar.rect)
+    drawTextInfo(window, font, selectedLayer, tileGrid, mouseEvent, tool, toolBar.offset)
+    drawTextFields(window, allTextFields, smallFont, toolBar.offset)
+    drawTIG(window, allTextFields, font, toolBar.offset)
+    window.display.set_clip()
     drawObjects(window, tileGrid, objectSystem, mouseEvent, font)
     tileSelect.draw(window, mouseEvent, tileGrid.tileSize)
     
