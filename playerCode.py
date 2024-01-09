@@ -33,22 +33,24 @@ class Player():
     self.previous_animation = "None"
     jump_height = -2*16-8
     self.play_speed = 0.8 #the faster the simulation speed the higher the chance the maximum height will be in a half frame and be skipped.
-    #self.jump_vel = 5.5*self.play_speed*self.play_speed
     self.grav_vec = [0, 0.4*self.play_speed]
-    self.jump_vel = math.sqrt(-jump_height*self.grav_vec[1]*2) #wow calculus paid off
+    self.jump_vel = math.sqrt(-jump_height*self.grav_vec[1]*2)
     self.no_wall_grab_timer = 0 
     self.no_wall_grab_time = 19 #in frames
     self.move_cancel_timer = 0
     self.wall_move_cancel_time = 25
     self.wall_slide_slowdown = 0.0
     
-    #self.wall_jump_y_vel = 5*(1-self.play_speed/1.5)
-    self.wall_jump_y_vel = self.jump_vel#math.sqrt(-jump_height*self.grav_vec[1]*2)
-    self.wall_jump_x_vel = 64 / (2*self.wall_jump_y_vel/self.grav_vec[1]) #2*(1-self.play_speed/1.5)
+    self.wall_jump_y_vel = self.jump_vel
+    self.wall_jump_x_vel = 64 / (2*self.wall_jump_y_vel/self.grav_vec[1])
     jump_width = 4*16
     self.max_walk_speed = jump_width/(2*self.jump_vel/self.grav_vec[1])
     self.x_slowdown = 0.8
     self.x_accel = self.max_walk_speed*(1/self.x_slowdown-1)*0.1
+    
+    #walking 
+    self.startup_speed = 2
+    self.quick_startup_max_velocity = 0.5
     self.Hookshot_accel = 0.25*self.play_speed
     self.light_on = True
     self.input_cancle = False
@@ -241,12 +243,15 @@ def playerInput(player : Player, hookshot : Hookshot, windowInput, camera, sound
   #walking
   if not player.climbing:
     if player.grounded:
+      startup_speed = 0
+      if get_len(player.vel) < player.quick_startup_max_velocity:
+        startup_speed = player.startup_speed
       if controls.left in windowInput.buttons and player.move_cancel_timer<=0: #and Player.vel[0] > -3:
-        player.vel[0] = player.vel[0] + player.x_accel * player.normal[1]
-        player.vel[1] = player.vel[1] - player.x_accel * player.normal[0]
+        player.vel[0] = player.vel[0] + (player.x_accel + startup_speed) * player.normal[1]
+        player.vel[1] = player.vel[1] - (player.x_accel + startup_speed) * player.normal[0]
       elif controls.right in windowInput.buttons and player.move_cancel_timer>=0: #and Player.vel[0] < 3:
-        player.vel[0] = player.vel[0] - player.x_accel * player.normal[1]
-        player.vel[1] = player.vel[1] + player.x_accel * player.normal[0]
+        player.vel[0] = player.vel[0] - (player.x_accel + startup_speed) * player.normal[1]
+        player.vel[1] = player.vel[1] + (player.x_accel + startup_speed) * player.normal[0]
     elif hookshot.hooked and hookshot.enabled:
       hookshot_vec = pg.Vector2(sub_pos(rect_center(player.rect), hookshot.pos))
       if controls.right in windowInput.buttonsRisingEdge or controls.left in windowInput.buttonsRisingEdge:

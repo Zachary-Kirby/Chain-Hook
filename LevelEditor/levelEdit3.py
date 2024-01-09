@@ -44,7 +44,7 @@ def main():
   #endregion
   
   pg.font.init()
-  font = pg.font.SysFont("calibrib.ttf", int(16*window.scale))
+  font = pg.font.SysFont("segoeuisemibold", int(12*window.scale))
   smallFont = my_font_class(window.scale)
   
   tileSelect = tile_select([int(0),int(0),int(64*window.scale),int(64*window.scale)],tileAtlas,tileGrid.tileSize, collisionAtlas)
@@ -133,7 +133,7 @@ def main():
               if tile!=0:
                 collision_assignments[str(tile)] = selectedTile
           else:
-            if str(selectedTile) in collision_assignments.keys():
+            if str(selectedTile) in collision_assignments.keys() and selectedLayer != 0:
               tileGrid.place_tile(convert_to_tile_coords(rel, tileGrid.tileSize), collision_assignments[str(selectedTile)], 4)
           mousePlaceTile(mouseEvent, rel, selectedTile, selectedLayer, tileGrid)
         elif mouseEvent.pressed[2]:

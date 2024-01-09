@@ -23,6 +23,7 @@ from levelClass     import *
 from window         import *
 from playerCode     import *
 import controls
+import os
 
 class Fade():
   def __init__(self, time, variant = 0):
@@ -154,6 +155,7 @@ def main():
   tileAtlas = pg.image.load("Graphics/tile_atlas.png").convert_alpha()
   level = Level()
   loadLevel(level, window.dimOriginal, tileAtlas, "Levels/Level0.level")
+  level_last_accessed = os.path.getmtime(level.reloadInfo[1])
   
   hookshot = Hookshot([0,0])
   player = Player([level.checkpoint[0], level.checkpoint[1], 8,12])
@@ -191,6 +193,11 @@ def main():
     if pg.K_LALT in window_input.buttons and pg.K_r in window_input.buttonsRisingEdge:
       level.reload()
     
+    if os.path.getmtime(level.reloadInfo[1])-level_last_accessed > 1:
+      level_last_accessed = os.path.getmtime(level.reloadInfo[1])
+      level.reload()
+      print(level_last_accessed)
+    
     if gameState == "playing":
       
       updateActionGroups(level, activateGroups, sounds)
@@ -210,6 +217,8 @@ def main():
         if player.grounded and not (controls.left in window_input.buttons or controls.right in window_input.buttons):
           player.vel[0] -= max(min(player.vel[0], 0.2), -0.2)
       playerCollision(player, hookshot, level, window_input, fade)
+      if player.dead:
+        gameState = "dead"
       
       #endregion player logic
       
