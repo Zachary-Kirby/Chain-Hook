@@ -124,13 +124,13 @@ def physicsMove(rect, pre_rect, collison_rects, axis, level : levelClass.Level, 
   else:
     return normal
 
-def stopVel(normal, vel, axis):
+def stopVel(normal, vel, axis, bounce_enabled):
   if normal!=[0,0]:
     if axis=='x':
       dot = normal[0] * vel[0] + normal[1] * vel[1]
       bounce = 1
-      if abs(dot) > 4:
-        bounce = 1.5
+      if bounce_enabled:
+        bounce = 1.9
       vel[0] -= normal[0] * dot * bounce
       vel[1] -= normal[1] * dot * bounce
     if axis=='y':

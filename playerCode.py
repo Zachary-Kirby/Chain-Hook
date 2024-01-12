@@ -223,7 +223,7 @@ def playerInput(player : Player, hookshot : Hookshot, windowInput, camera, sound
   if controls.jump in windowInput.buttonsFallingEdge and player.vel[1]<0:
     player.vel[1] *= 0.5
   
-  if controls.jump in windowInput.buttonsRisingEdge and hookshot.hooked and hookshot.enabled and not player.grounded:
+  if controls.jump in windowInput.buttonsRisingEdge and hookshot.hooked and hookshot.enabled and not player.grounded and player.wall != 0:
     hookshot.enabled = False
   
   if player.wall!=0:
@@ -306,19 +306,21 @@ def playerGravity(player : Player, hookshot : Hookshot):
       player.vel[1] += grav_vec[1]
   
 
-def playerCollision(player : Player, hookshot : Hookshot, level : levelClass.Level, windowInput, fade):
+def playerCollision(player : Player, hookshot : Hookshot, level : levelClass.Level, windowInput, fade, bounce_enabled):
   move = [player.vel[0], player.vel[1]]
   
   #super smooth hookshot mode
   #deals with imprecision with the hookshot movement
+  #TODO FIX THE PLAYER BEING COMPLETLY STOPPED IN THE HOOKSHOT DIRECTION
   if True:
     if hookshot.hooked and hookshot.enabled:
+      hook_vec = normalize(sub_pos(rect_center(player.rect), hookshot.pos))
       if get_dist(add_pos(rect_center(player.rect), move), hookshot.pos) > hookshot.len:
         
         circumfrance = hookshot.len * 2 * math.pi
         #find the starting vector of the player on the circle
-        hook_vec = normalize(sub_pos(rect_center(player.rect), hookshot.pos))
         move_l = vec_dot(vec_normal(hook_vec, -1), move) #tangent movement length and direction
+          
         #find how many radians are in the arclength and which direction the move is
         
         move_radians = move_l/circumfrance * 2 * math.pi #* move_dir
@@ -339,7 +341,7 @@ def playerCollision(player : Player, hookshot : Hookshot, level : levelClass.Lev
   
   normal, col_types = physicsMove(player.rect, player.pre_rect, Level_collision, 'x', level, output_collision_type=True) #this could be interesting
   
-  player.vel = stopVel(normal, player.vel, 'x')
+  player.vel = stopVel(normal, player.vel, 'x', bounce_enabled)
   
   if level.get_tile([(int(player.rect[0]-1)//level.tileSize), int((player.rect[1]+player.rect[3]/2)//level.tileSize)]) == 1 and controls.left in windowInput.buttons:
     player.wall = 1
@@ -359,7 +361,7 @@ def playerCollision(player : Player, hookshot : Hookshot, level : levelClass.Lev
   
   normal, col_types = physicsMove(player.rect, player.pre_rect, Level_collision, 'y', level, output_collision_type=True)
   
-  player.vel = stopVel(normal, player.vel, 'y')
+  player.vel = stopVel(normal, player.vel, 'y', 0)
   
   player.pre_rect = player.rect.copy()
   

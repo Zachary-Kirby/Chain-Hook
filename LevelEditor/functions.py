@@ -309,6 +309,7 @@ def saveLevel(levelFile, tileGrid: TileGrid, tileAnimations, originalTileDefs, o
   text = dumps(Level)
   with open(levelFile, "w") as txt:
     txt.write(text)
+    txt.flush()
   
   text = dumps(collision_assignments)
   with open("collision_assignments.json", "w") as txt:

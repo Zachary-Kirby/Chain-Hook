@@ -11,6 +11,8 @@ import pygame as pg
 import pygame.freetype as freetype
 from sys import exit
 
+from pygame import Vector2
+
 import math
 import time
 import random
@@ -155,11 +157,11 @@ def main():
   tileAtlas = pg.image.load("Graphics/tile_atlas.png").convert_alpha()
   level = Level()
   loadLevel(level, window.dimOriginal, tileAtlas, "Levels/Level0.level")
-  level_last_accessed = os.path.getmtime(level.reloadInfo[1])
+  level_modified_time_at_load = os.path.getmtime(level.reloadInfo[1])
   
-  hookshot = Hookshot([0,0])
+  hookshot = Hookshot(Vector2(0, 0))
   player = Player([level.checkpoint[0], level.checkpoint[1], 8,12])
-  camera = [0,0]
+  camera = Vector2(0, 0)
   ladderRect = [0,0,0,0]
   activateGroups = []
   
@@ -183,7 +185,7 @@ def main():
   
   airParticles = [[Vector2(random.randint(0, window.dimOriginal[0]), random.randint(0, window.dimOriginal[1])), Vector2(0,0), random.randint(1, 100)] for n in range(100)]
   Wind = [1, 0]
-  cancel_vel = [0,0]
+  cancel_vel = Vector2(0,0)
   
   while exit == 0:
     
@@ -192,11 +194,14 @@ def main():
     
     if pg.K_LALT in window_input.buttons and pg.K_r in window_input.buttonsRisingEdge:
       level.reload()
-    
-    if os.path.getmtime(level.reloadInfo[1])-level_last_accessed > 1:
-      level_last_accessed = os.path.getmtime(level.reloadInfo[1])
-      level.reload()
-      print(level_last_accessed)
+    level_last_modified = os.path.getatime(level.reloadInfo[1])
+    if level_last_modified-level_modified_time_at_load > 1:
+      with open(level.reloadInfo[1], "r+") as file:
+        file_size = len(file.read())
+      if file_size > 0:
+        level_modified_time_at_load = level_last_modified
+        level.reload()
+      
     
     if gameState == "playing":
       
@@ -216,9 +221,11 @@ def main():
       if (player.grounded != 0 ) or (not hookshot.hooked) or not hookshot.enabled:
         if player.grounded and not (controls.left in window_input.buttons or controls.right in window_input.buttons):
           player.vel[0] -= max(min(player.vel[0], 0.2), -0.2)
-      playerCollision(player, hookshot, level, window_input, fade)
+      playerCollision(player, hookshot, level, window_input, fade, controls.left not in window_input.buttons and controls.right not in window_input.buttons)
       if player.dead:
         gameState = "dead"
+      if get_len(player.vel) > 16+player.rect[2]:
+        player.vel = multiply_vec(normalize(player.vel), (16+player.rect[2]))
       
       #endregion player logic
       
@@ -291,7 +298,7 @@ def main():
                   pull_chain.pulling = True
             
             if hookshot.enabled and hookshot.hooked:
-              if d >= hookshot.len:
+              if d > hookshot.len:
                   player.rect[0] = hookshot.pos[0]+(rect_centerx(player.rect)-hookshot.pos[0])/d*hookshot.len-player.rect[2]/2
                   player.rect[1] = hookshot.pos[1]+(rect_centery(player.rect)-hookshot.pos[1])/d*hookshot.len-player.rect[3]/2
                   #6[0] += -(Player.rect[0]-Hookshot.pos[0])/d*min((d-Hookshot.len), Tile_size-1) #velocity limited version
@@ -338,7 +345,7 @@ def main():
         
         pushed, col_types = physicsMove(player.rect, player.pre_rect, Level_collision, 'x', level, output_collision_type=True) #this could be interesting
         
-        player.vel = stopVel(pushed, player.vel, 'x')
+        player.vel = stopVel(pushed, player.vel, 'x', 1)
         
         tile_topleft  = convert_to_tile_coords(rect_topleft (player.rect), level.tileSize)
         tile_botright = convert_to_tile_coords(rect_botright(player.rect), level.tileSize)
@@ -349,14 +356,14 @@ def main():
         
         pushed, col_types = physicsMove(player.rect, player.pre_rect, Level_collision, 'y', level, output_collision_type=True)
         
-        player.vel = stopVel(pushed, player.vel, 'y')
+        player.vel = stopVel(pushed, player.vel, 'y', 0)
         
         player.pre_rect = player.rect.copy()
       #endregion
       
       #region CameraLogic
       Look_offset = (window_input.mouseEvent.pos[0]-window.dimOriginal[0]/2)/4, (window_input.mouseEvent.pos[1]-window.dimOriginal[1]/2)/4
-      Camera_target = add_pos(sub_pos(rect_center(player.rect), [window.dimOriginal[0]//2, window.dimOriginal[1]//2]),Look_offset)
+      Camera_target = add_pos(add_pos(sub_pos(rect_center(player.rect), [window.dimOriginal[0]//2, window.dimOriginal[1]//2]),Look_offset), player.vel)
       for zone in level.camera_zones:
         if collide_rects(player.rect, zone.rect):
           if zone.type == "center":
@@ -428,7 +435,7 @@ def main():
         particle[1].y += Wind[1]/5000
         particle[1].x *= 0.999
         particle[1].y *= 0.999
-        particle[0].add(particle[1])
+        particle[0] += particle[1]
         window.display.fill((32+16*math.sin(3.14*2/60*(frame+particle[2])), 32+16*math.sin(3.14*2/60*(frame+particle[2])), 32+16*math.sin(3.14*2/60*(frame+particle[2]))), ((particle[0].x*particle[2]/10-camera[0]) % window.dimOriginal[0], (particle[0].y*particle[2]/10-camera[1]) % window.dimOriginal[1], 1, 1), pg.BLEND_RGB_ADD)
       
       for sign in level.signs:
@@ -499,6 +506,10 @@ def main():
     clock.tick(60)
     frame += 1
 
+#Me
+#Pygame
+#My brother for play testing
+#daluffypotato served as inspiration to continue using pygame and python instead of c++ and SDL2
 def Credits(display, Window_dim):
   pass
 

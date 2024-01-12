@@ -1,14 +1,6 @@
 import math
 
-class Vector2():
-  def __init__(self, x, y):
-    self.x = x
-    self.y = y
-  def add(self, vec):
-    self.x += vec.x
-    self.y += vec.y
-  def as_tuple(self):
-    return (self.x, self.y)
+from pygame import Vector2
 
 def cast_down(line, x):
   w = line[2] - line[0]
@@ -28,8 +20,7 @@ def get_len(vec):
   return (vec[0]*vec[0] + vec[1] * vec[1])**0.5
 
 def normalize(vec):
-  d=get_len(vec)
-  return [vec[0]/d, vec[1]/d]
+  return Vector2(vec).normalize()
 
 def angle_to(pos, pos2):
   dif = pos[0]-pos2[0], pos[1]-pos2[1]
@@ -52,7 +43,7 @@ def min_mag(vec1, vec2):
   return m
 
 def complex_multiply(vec, rvec):
-  return [vec[0]*rvec[0]-vec[1]*rvec[1], vec[0]*rvec[1]+rvec[0]*vec[1]]
+  return Vector2([vec[0]*rvec[0]-vec[1]*rvec[1], vec[0]*rvec[1]+rvec[0]*vec[1]])
 
 def vec_dot(a, b):
   return a[0]*b[0]+a[1]*b[1]
@@ -62,7 +53,7 @@ def vec_normal(v, handed = 1):
   1  is right handed
   -1 is left handed
   """
-  return [v[1]*handed, -v[0]*handed]
+  return Vector2([v[1]*handed, -v[0]*handed])
 
 def vec_scale(vec, scale):
   return [vec[0]*scale, vec[1]*scale]
@@ -71,14 +62,14 @@ def add_pos(pos1, pos2):
   """
   also takes rects that are in the form [x,y,w,h]
   """
-  return [pos1[0]+pos2[0],pos1[1]+pos2[1]]
+  return Vector2([pos1[0]+pos2[0],pos1[1]+pos2[1]])
 
 def sub_pos(pos1, pos2):
   """
   pos1 - pos2
   also takes rects that are in the form [x,y,w,h]
   """
-  return [pos1[0]-pos2[0],pos1[1]-pos2[1]]
+  return Vector2([pos1[0]-pos2[0],pos1[1]-pos2[1]])
 
 def get_direction(pos1, pos2):
   return normalize(sub_pos(pos2, pos1))
