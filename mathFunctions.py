@@ -2,6 +2,18 @@ import math
 
 from pygame import Vector2
 
+def ray_circle(ray_position: Vector2, ray_direction: Vector2, circle_center: Vector2, circle_radius: Vector2):
+  p = ray_position - circle_center
+  theta = p.dot(p)
+  phi = p.dot(ray_direction)
+  radicand = circle_radius*circle_radius - theta + phi*phi
+  if radicand < 0:
+    return Vector2(0,0)
+  t = math.sqrt(radicand) - phi
+  if t < 0:
+    t = -math.sqrt(radicand) - phi
+  return ray_position + ray_direction * t
+
 def cast_down(line, x):
   w = line[2] - line[0]
   t = (x - line[0])/w

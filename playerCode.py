@@ -316,6 +316,11 @@ def playerCollision(player : Player, hookshot : Hookshot, level : levelClass.Lev
     if hookshot.hooked and hookshot.enabled:
       hook_vec = normalize(sub_pos(rect_center(player.rect), hookshot.pos))
       if get_dist(add_pos(rect_center(player.rect), move), hookshot.pos) > hookshot.len:
+        #snap player position to edge of hookshot if they are outside it to start off with
+        
+        #cast a ray to snap to the circle of the hookshot and find remaining move length (this also needs to make sure not to clip through blocks so make sure to add to move instead of directly chaning x and y)
+        #find the tangent component of the remaining move and move around the hookshot by that much
+        #set velocity to tangent component at the final move point
         
         circumfrance = hookshot.len * 2 * math.pi
         #find the starting vector of the player on the circle
@@ -326,13 +331,15 @@ def playerCollision(player : Player, hookshot : Hookshot, level : levelClass.Lev
         move_radians = move_l/circumfrance * 2 * math.pi #* move_dir
         #move the player by that many degrees around the hookshot
         hook_vec = complex_multiply(hook_vec, [math.cos(move_radians), math.sin(move_radians)]) #rotate the vector
-        new_pos = add_pos(vec_scale(hook_vec, hookshot.len), hookshot.pos)
+        new_pos = add_pos(vec_scale(hook_vec, hookshot.len), hookshot.pos) #THIS IS THE PROBLEMATIC CODE
         move = sub_pos(new_pos, rect_center(player.rect))
         
         #set the velocity to itself but rotated to be tanget to the new point
         player.vel = complex_multiply(player.vel, [math.cos(move_radians), math.sin(move_radians)])
+        
   
   player.rect[0] += move[0]
+  
   
   tile_topleft  = convert_to_tile_coords(rect_topleft (player.rect), level.tileSize)
   tile_botright = convert_to_tile_coords(rect_botright(player.rect), level.tileSize)
